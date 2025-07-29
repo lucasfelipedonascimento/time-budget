@@ -2,6 +2,8 @@
 
 TimeBudget é uma aplicação para gerenciamento de orçamentos de serviços e peças automotivas. O projeto utiliza uma arquitetura modular e orientada a domínio, com foco em boas práticas de design e organização de código.
 
+![alt text](image.png)
+
 ## Estrutura do Projeto
 
 O projeto está organizado da seguinte forma:
