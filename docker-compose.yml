@@ -1,0 +1,16 @@
+services:
+  time-budget-pg:
+    image: postgres:15
+    container_name: time-budget-pg
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: time_budget_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
