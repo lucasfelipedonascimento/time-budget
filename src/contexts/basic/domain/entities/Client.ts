@@ -1,22 +1,24 @@
 import { CPF } from '../../../../value-objects/CPF'
+import { Email } from '../../../../value-objects/Email'
+import { CEP } from '../../../../value-objects/CEP'
 
 export class Client {
   private id: number;
   private cpf: CPF;
   private name: string;
-  private email: string;
+  private email: Email;
   private address: string;
   private address_number: string;
-  private cep: string;
+  private cep: CEP;
 
   constructor(
-    id: number,
     cpf: string,
     name: string,
     email: string,
     address: string,
     address_number: string,
-    cep: string
+    cep: string,
+    id?: number,
   ) {
     if (!id || !name || !email || !address || !address_number || !cep) {
       throw new Error('All fields are required');
@@ -25,10 +27,10 @@ export class Client {
     this.id = id;
     this.cpf = new CPF(cpf);
     this.name = name;
-    this.email = email;
+    this.email = new Email(email);
     this.address = address;
     this.address_number = address_number;
-    this.cep = cep;
+    this.cep = new CEP(cep);
   }
 
   get getId(): number {
@@ -41,7 +43,7 @@ export class Client {
     return this.name;
   }
   get getEmail(): string {
-    return this.email;
+    return this.email.getEmail;
   }
   get getAddress(): string {
     return this.address;
@@ -50,33 +52,39 @@ export class Client {
     return this.address_number;
   }
   get getCep(): string {
-    return this.cep;
+    return this.cep.getCEP;
   }
-  set setName(name: string) {
+
+  public changeName(name: string): void {
     this.requiredField(name);
     this.name = name;
   }
-  set setEmail(email: string) {
+
+  public changeEmail(email: string): void {
     this.requiredField(email);
-    this.email = email;
+    this.email = new Email(email);
   }
-  set setAddress(address: string) {
-    this.requiredField(address);
-    this.address = address;
-  }
-  set setAddressNumber(address_number: string) {
-    this.requiredField(address_number);
-    this.address_number = address_number;
-  }
-  set setCep(cep: string) {
-    this.requiredField(cep);
-    this.cep = cep;
-  }
-  set setCPF(cpf: string) {
+
+  public changeCPF(cpf: string): void {
     this.requiredField(cpf);
     this.cpf = new CPF(cpf);
   }
 
+  public changeCEP(cep: string): void {
+    this.requiredField(cep);
+    this.cep = new CEP(cep);
+  }
+
+  public changeAddress(address: string): void {
+    this.requiredField(address);
+    this.address = address;
+  }
+
+  public changeAddressNumber(address_number: string): void {
+    this.requiredField(address_number);
+    this.address_number = address_number;
+  }
+  
   private requiredField(value: string | number) {
     if (!value) {
       throw new Error('Field cannot be null or undefined');

@@ -8,11 +8,11 @@ export class Vehicle {
   private year: number;
 
   constructor (
-    id: number,
     plate: string,
     brand: string,
     model: string,
-    year: number
+    year: number,
+    id?: number,
   ) {
     if (!id || !plate || !brand || !model || !year) {
       throw new Error('All fields are required');
