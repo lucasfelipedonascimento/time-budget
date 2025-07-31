@@ -189,6 +189,10 @@ export class Budget {
   public addPiece(piece: Piece): void {
     this.ensureBudgetIsPending();
 
+    const pieceInBudget = this.pieces.some(p => p.getId() === piece.getId());
+    if (pieceInBudget) {
+      throw new Error('Peça já está associada a este orçamento');
+    }
     this.pieces.push(piece);
     this.calculateTotalAmount();
   }
@@ -196,6 +200,10 @@ export class Budget {
   public removePiece(pieceId: number): void {
     this.ensureBudgetIsPending();
 
+    const pieceInBudget = this.pieces.some(piece => piece.getId() === pieceId);
+    if (!pieceInBudget) {
+      throw new Error('Peça não encontrada no orçamento');
+    }
     this.pieces = this.pieces.filter(piece => piece.getId() !== pieceId);
     this.calculateTotalAmount();
   }

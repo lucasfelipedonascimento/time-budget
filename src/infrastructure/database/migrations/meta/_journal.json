@@ -15,6 +15,13 @@
       "when": 1753757121486,
       "tag": "0001_bumpy_prowler",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1753905579618,
+      "tag": "0002_peaceful_cobalt_man",
+      "breakpoints": true
     }
   ]
 }
