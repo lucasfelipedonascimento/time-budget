@@ -12,6 +12,8 @@ export default defineConfig({
       exclude: [
         'vitest.**.ts',
         'vitest.setup.**.ts',
+        'src/constants/**',
+        'src/contexts/**/**/dto'
       ]
     },
     environment: "node",
