@@ -1,9 +1,10 @@
 import { CPF } from '../../../../value-objects/CPF'
 import { Email } from '../../../../value-objects/Email'
 import { CEP } from '../../../../value-objects/CEP'
+import { Erros } from '../../../../constants/Erros';
 
 export class Client {
-  private id: number;
+  private id?: number;
   private cpf: CPF;
   private name: string;
   private email: Email;
@@ -20,11 +21,11 @@ export class Client {
     cep: string,
     id?: number,
   ) {
-    if (!id || !name || !email || !address || !address_number || !cep) {
-      throw new Error('All fields are required');
+    if (!name || !address || !address_number) {
+      throw new Error(Erros.allRequiredFields);
     }
 
-    this.id = id;
+    this.id = id || undefined;
     this.cpf = new CPF(cpf);
     this.name = name;
     this.email = new Email(email);
@@ -33,7 +34,7 @@ export class Client {
     this.cep = new CEP(cep);
   }
 
-  get getId(): number {
+  get getId(): number | undefined {
     return this.id;
   }
   get getCPF(): string {
@@ -61,12 +62,10 @@ export class Client {
   }
 
   public changeEmail(email: string): void {
-    this.requiredField(email);
     this.email = new Email(email);
   }
 
   public changeCPF(cpf: string): void {
-    this.requiredField(cpf);
     this.cpf = new CPF(cpf);
   }
 
