@@ -3,7 +3,7 @@ import { clients } from "./clients"
 import { vehicles } from "./vehicle"
 import { budgetSchema } from "./budgetSchema.ts";
 
-export const statusEnum = pgEnum('status', ["pending", "approved", "rejected", "in_progress"]);
+export const statusEnum = pgEnum('status', ["pending", "approve", "reject", "in_progress"]);
 
 export const budgets = budgetSchema.table('budgets', {
   id: serial('id').primaryKey(),
