@@ -1,3 +1,5 @@
+import { Erros } from "../constants/Erros";
+
 export class CEP {
   private cep: string
 
@@ -9,7 +11,7 @@ export class CEP {
     const cepRegex = /^[0-9]{5}-?[0-9]{3}$/;
 
     if (!cepRegex.test(cep)) {
-      throw new Error("CEP inválido. Deve estar no formato XXXXX-XXX ou XXXXXXXX.");
+      throw new Error(Erros.invalidCep);
     }
 
     this.cep = cep.replace('-', '');

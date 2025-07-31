@@ -9,6 +9,10 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.unit.ts", "./vitest.setup.integration.ts"],
     coverage: {
       enabled: true,
+      exclude: [
+        'vitest.**.ts',
+        'vitest.setup.**.ts',
+      ]
     },
     environment: "node",
     include: ["test/**/*.test.ts"],

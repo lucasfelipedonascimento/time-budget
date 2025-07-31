@@ -1,3 +1,4 @@
+import { Erros } from "../constants/Erros";
 
 export class Email {
   private email: string;
@@ -12,7 +13,7 @@ export class Email {
 
   private validateEmail(email: string): void {
     if (!email || typeof email !== 'string' || !this.isValidEmail(email)) {
-      throw new Error("O email deve ser um endereço de email válido");
+      throw new Error(Erros.invalidEmail);
     }
     this.email = email;
   }
