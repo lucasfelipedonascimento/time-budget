@@ -1,12 +1,12 @@
 export class Piece {
-  private id: number
+  private id?: number
   private name: string
   private unit_price: number = 0 // Default value, can be set later
   private quantity: number
 
-  constructor(id: number, name: string, unit_price: number, quantity: number) {
-    if (!id || !name || !quantity || !unit_price) {
-      throw new Error('All fields are required and quantity must be non-negative');
+  constructor(name: string, unit_price: number, quantity: number, id?: number) {
+    if (!name) {
+      throw new Error('O nome é obrigatório');
     }
 
     this.id = id;
@@ -15,7 +15,7 @@ export class Piece {
     this.validateUnitPrice(unit_price);
   }
 
-  public getId(): number {
+  public getId(): number | undefined {
     return this.id;
   }
 
