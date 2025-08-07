@@ -1,7 +1,7 @@
 import { Piece } from './Piece'
 
 export class Service {
-  private id: number
+  private id?: number
   private name: string
   private time: number
   private unit_price: number = 0 // Default value, can be set later
@@ -9,26 +9,26 @@ export class Service {
   private pieces?: Piece[]
 
   constructor(
-    id: number,
     name: string,
     time: number,
     unit_price: number,
     quantity: number,
-    pieces?: Piece[]
+    pieces?: Piece[],
+    id?: number,
   ) {
-    if (!id || !name || !quantity) {
-      throw new Error('All fields are required');
+    if (!name) {
+      throw new Error('Os campos: nome, tempo, quantidade e preço unitário são obrigatórios');
     }
 
     this.id = id;
     this.name = name;
-    this.time = time;
+    this.validateTime(time)
     this.validateUnitPrice(unit_price);
     this.validateQuantity(quantity);
-    this.pieces = pieces || [];
+    this.pieces = pieces || undefined;
   }
 
-  public getId(): number {
+  public getId(): number | undefined {
     return this.id;
   }
   public getName(): string {
@@ -69,9 +69,14 @@ export class Service {
  
   // tempo
   public changeTime(time: number): void {
-    if (time <= 0) {
+    this.validateTime(time)
+  }
+
+  private validateTime(time: number): void {
+    if (!time || time <= 0) {
       throw new Error('Tempo não pode ser igual ou menor que 0');
     }
+
     this.time = time;
   }
 
@@ -81,7 +86,7 @@ export class Service {
   }
 
   private validateQuantity(quantity: number): void {
-    if (quantity <= 0) {
+    if (!quantity || quantity <= 0) {
       throw new Error('Quantidade não pode ser igual ou menor que 0');
     }
 
@@ -94,8 +99,8 @@ export class Service {
   }
 
   private validateUnitPrice(unit_price: number): void {
-    if (unit_price < 0) {
-      throw new Error('O preço não pode ser negativo');
+    if (!unit_price || unit_price < 0) {
+      throw new Error('O preço não pode ser menor que 0');
     }
 
     this.unit_price = unit_price;

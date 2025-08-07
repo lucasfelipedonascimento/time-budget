@@ -1,7 +1,7 @@
 import { Plate } from "../../../../value-objects/Plate";
 
 export class Vehicle {
-  private id: number;
+  private id?: number;
   private plate: Plate;
   private brand: string;
   private model: string;
@@ -14,8 +14,8 @@ export class Vehicle {
     year: number,
     id?: number,
   ) {
-    if (!id || !plate || !brand || !model || !year) {
-      throw new Error('All fields are required');
+    if (!brand || !model || !year) {
+      throw new Error('Os campos: placa, marca, modelo e ano são obrigatórios');
     }
 
     this.id = id;
@@ -25,11 +25,11 @@ export class Vehicle {
     this.year = year;
   }
 
-  get getId(): number {
+  get getId(): number | undefined {
     return this.id;
   }
-  get getPlate(): Plate {
-    return this.plate;
+  get getPlate(): string {
+    return this.plate.getPlate;
   }
   get getBrand(): string {
     return this.brand;
@@ -42,9 +42,6 @@ export class Vehicle {
   }
 
   public changePlate(newPlate: string): void {
-    if (!newPlate) {
-      throw new Error('Plate is required');
-    }
     this.plate = new Plate(newPlate);
   }
 
