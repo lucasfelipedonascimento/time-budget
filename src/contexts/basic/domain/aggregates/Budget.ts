@@ -5,7 +5,7 @@ import { Piece } from '../entities/Piece'
 import { STATUS } from '../../../../constants/Status'
 
 export class Budget {
-  private id?: string
+  private id?: number
   private status: STATUS = STATUS.PENDING // Default to 'pending'
   private client: Client
   private vehicle: Vehicle
@@ -20,9 +20,9 @@ export class Budget {
     vehicle: Vehicle,
     createdAt: string,
     updatedAt: string,
-    services: Service[],
-    pieces: Piece[],
-    id?: string,
+    services?: Service[],
+    pieces?: Piece[],
+    id?: number,
   ) {
     this.validateClient(client)
     this.validateVehicle(vehicle)
@@ -34,7 +34,7 @@ export class Budget {
     this.calculateTotalAmount() // Calculate total amount based on services and pieces
   }
 
-  getId(): string | undefined {
+  getId(): number | undefined {
     return this.id
   }
   getStatus(): string {
@@ -49,8 +49,14 @@ export class Budget {
   getServices(): Service[] | undefined {
     return this.services
   }
+  getServiceById(serviceId: number): Service | undefined {
+    return this.services.find(s => s.getId() === serviceId)
+  }
   getPieces(): Piece[] | undefined {
     return this.pieces
+  }
+  getPieceById(pieceId: number): Piece | undefined {
+    return this.pieces.find(p => p.getId() === pieceId)
   }
   getTotalAmount(): number {
     return this.totalAmount
@@ -78,7 +84,7 @@ export class Budget {
   public removeService(serviceId: number): void {
     this.ensureBudgetIsPending();
 
-    const serviceInBudget = this.services.some(s => s.getId() === serviceId);
+    const serviceInBudget = this.services.find(s => s.getId() === serviceId);
     if (!serviceInBudget) {
       throw new Error('Serviço não encontrado no orçamento');
     }

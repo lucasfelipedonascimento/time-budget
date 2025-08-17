@@ -5,6 +5,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
-    include: ["test/contexts/**/domain/entities/*.test.ts"],
+    include: ["test/contexts/**/domain/**/*.test.ts"],
+    exclude: ["src/contexts/**/domain/dto", 
+              "src/contexts/**/domain/interfaces", 
+              "src/infrastructure/database/schema",
+              "src/infrastructure/database/migrations",
+            ]
   },
 });

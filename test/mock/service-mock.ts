@@ -7,12 +7,12 @@ export const service = {
   id: faker.number.int({ min: 1, max: 1000 }),
   name: faker.animal.rodent(),
   time: faker.number.int(),
-  unit_price: faker.number.float(),
+  unit_price: faker.number.float({ min: 1 }),
   quantity: faker.number.int({ min: 1, max: 10 }),
   pieces: [new Piece(
-    piece.id,
     piece.name,
     piece.unit_price,
     piece.quantity,
+    piece.id,
   )]
 } 

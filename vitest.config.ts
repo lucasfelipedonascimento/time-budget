@@ -6,7 +6,7 @@ dotenv.config({ path: ".env.test" });
 export default defineConfig({
   test: {
     globals: true,
-    setupFiles: ["./vitest.setup.unit.ts", "./vitest.setup.integration.ts"],
+    setupFiles: [""],
     coverage: {
       enabled: true,
       exclude: [
