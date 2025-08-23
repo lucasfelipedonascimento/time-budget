@@ -146,6 +146,11 @@ export class Budget {
     if (!service) {
       throw new Error('Serviço não encontrado');
     }
+
+    const piece = service.getPieces()?.find(p => p.getId() === pieceId)
+    if (!piece) {
+      throw new Error('Peça não encontrada no serviço');
+    }
     service.removePiece(pieceId);
     this.calculateTotalAmount();
   }
