@@ -16,7 +16,7 @@
 
 #### Peça
 
-- Componente opcional/obrigatório a ser utilizado em um serviço
+- Componente opcional/obrigatório a ser utilizado em um serviço/orçamento
 
 ### Valor total:
 
