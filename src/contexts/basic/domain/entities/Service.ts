@@ -46,6 +46,9 @@ export class Service {
   public getPieces(): Piece[] | undefined {
     return this.pieces;
   }
+  public getPieceById(pieceId: number): Piece | undefined {
+    return this.pieces?.find(p => p.getId() === pieceId)
+  }
 
   // peças
   public addPiece(piece: Piece): void {
