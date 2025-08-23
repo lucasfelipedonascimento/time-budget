@@ -198,6 +198,8 @@ test('testar alterar cliente do agregado', () => {
   expect(budget.getId()).toBe(budgetMock.id)
 })
 
+// deve dar erro ao alterar cliente com orçamento não pendente
+
 test('testar alterar veículo do agregado', () => {
   const budget = new Budget(
     budgetMock.client,
@@ -216,6 +218,8 @@ test('testar alterar veículo do agregado', () => {
   
   expect(budget.getId()).toBe(budgetMock.id)
 })
+
+// deve dar erro ao alterar veículo com orçamento não pendente
 
 // adicionar serviço
 test('testar adicionar serviço ao agregado', () => {
@@ -237,6 +241,8 @@ test('testar adicionar serviço ao agregado', () => {
   expect(budget.getId()).toBe(budgetMock.id)
 })
 
+// deve dar erro ao tentar adicionar serviço em orçamento não pendente
+
 // remover serviço
 test('testar remover serviço do agregado', () => {
   const budget = new Budget(
@@ -256,6 +262,8 @@ test('testar remover serviço do agregado', () => {
   
   expect(budget.getId()).toBe(budgetMock.id)
 })
+
+// deve dar erro ao tentar remover serviço em orçamento não pendente
 
 // deve dar erro ao adicionar serviço já presente na lista
 test('deve dar erro ao testar adicionar serviço já presente no agregado', () => {
@@ -319,6 +327,8 @@ test('testar alterar preço de um serviço', () => {
   expect(budget.getId()).toBe(budgetMock.id)
 })
 
+// deve dar erro ao tentar alterar preço do serviço em orçamento não pendente
+
 // alterar quantidade do serviço
 test('testar alterar preço de um serviço', () => {
   const budget = new Budget(
@@ -340,6 +350,8 @@ test('testar alterar preço de um serviço', () => {
   expect(firstService.getQuantity()).toBe(newQuantity)
   expect(budget.getId()).toBe(budgetMock.id)
 })
+
+// deve dar erro ao tentar alterar quantidade do serviço em orçamento não pendente
 
 // adicionar peça ao serviço
 test('testar adicionar peça em um serviço', () => {
@@ -366,6 +378,8 @@ test('testar adicionar peça em um serviço', () => {
   budget.addPieceToService(Number(firstService.getId()), newPieceToService)
 })
 
+// deve dar erro ao tentar adicionar peça no serviço em orçamento não pendente
+
 // remover peça do serviço
 test('testar remover peça de um serviço', () => {
   const budget = new Budget(
@@ -384,6 +398,8 @@ test('testar remover peça de um serviço', () => {
   budget.removePieceToService(Number(firstService.getId()), Number(pieceMock.id))
   expect(firstService.getPieces()).not.includes(Number(pieceMock.id))
 })
+
+// deve dar erro ao tentar remove peça no serviço em orçamento não pendente
 
 // alterar preço da peça do serviço
 test('testar alterar preço da peça de um serviço', () => {
@@ -409,6 +425,8 @@ test('testar alterar preço da peça de um serviço', () => {
   expect(firstPiece?.getUnitPrice()).toBe(newPrice)
 })
 
+// deve dar erro ao tentar alterar preço da peça no serviço em orçamento não pendente
+
 // alterar quantidade de peça no serviço
 test('testar alterar quantidade da peça de um serviço', () => {
   const budget = new Budget(
@@ -433,6 +451,8 @@ test('testar alterar quantidade da peça de um serviço', () => {
   expect(firstPiece?.getQuantity()).toBe(newQuantity)
 })
 
+// deve dar erro ao tentar alterar quantidade de peça no serviço em orçamento não pendente
+
 // erro ao adicionar peça no serviço
 test('deve dar erro ao tentar adicionar peça no serviço', () => {
   const budget = new Budget(
@@ -453,7 +473,7 @@ test('deve dar erro ao tentar adicionar peça no serviço', () => {
 })
 
 // erro ao remover peça de serviço não presente no orçamento
-test('deve dar erro ao tentar remove peça do serviço', () => {
+test('deve dar erro ao tentar remover peça de serviço não presente no orçamento', () => {
   const budget = new Budget(
     newClient,
     newVehicle,
@@ -472,7 +492,7 @@ test('deve dar erro ao tentar remove peça do serviço', () => {
 })
 
 // erro ao remover peça não presente em um serviço do orçamento
-test('deve dar erro ao tentar remove peça do serviço', () => {
+test('deve dar erro ao tentar remover peça não presente em um serviço no orçamento', () => {
   const budget = new Budget(
     newClient,
     newVehicle,
@@ -510,6 +530,27 @@ test('testar adicionar peça a um orçamento', () => {
   expect(budget.getPieces()).includes(newPiece)
 })
 
+// deve dar erro ao tentar adicionar peça em orçamento não pendente
+
+// deve dar erro ao tentar adicionar peça já vinculada ao orçamento
+test('deve dar erro ao testar adicionar peça já presente no orçamento', () => {
+  const budget = new Budget(
+    newClient,
+    newVehicle,
+    budgetMock.created_at,
+    budgetMock.updated_at, 
+    budgetMock.services,
+    [newPiece],
+    budgetMock.id,
+  )
+
+  expect(budget.getPieces()).includes(newPiece)
+
+  expect(() => {
+    budget.addPiece(newPiece)
+  }).toThrowError('Peça já está associada a este orçamento')
+})
+
 // remover peça
 test('testar remove peça de um orçamento', () => {
   const budget = new Budget(
@@ -526,6 +567,27 @@ test('testar remove peça de um orçamento', () => {
 
   budget.removePiece(Number(newPiece.getId()))
   expect(budget.getPieces()).not.includes(newPiece)
+})
+
+// deve dar erro ao tentar remover peça em orçamento não pendente
+
+// deve dar erro ao tentar remover peça não vinculada ao orçamento
+test('deve dar erro ao testar remover peça não presente de um orçamento', () => {
+  const budget = new Budget(
+    newClient,
+    newVehicle,
+    budgetMock.created_at,
+    budgetMock.updated_at, 
+    budgetMock.services,
+    [],
+    budgetMock.id,
+  )
+
+  expect(budget.getPieces()).toEqual([])
+
+  expect(() => {
+    budget.removePiece(Number(newPiece.getId()))
+  }).toThrowError('Peça não encontrada no orçamento')
 })
 
 // alterar preço da peça
@@ -549,6 +611,28 @@ test('testar alterar preço de peça em um orçamento', () => {
   expect(firstPiece.getUnitPrice()).toBe(newPrice)
 })
 
+// deve dar erro ao tentar alterar preço da peça em orçamento não pendente
+
+// deve dar erro ao tentar alterar preço de peça não presente no orçamento
+test('testar alterar preço de peça não presente em um orçamento', () => {
+  const budget = new Budget(
+    newClient,
+    newVehicle,
+    budgetMock.created_at,
+    budgetMock.updated_at, 
+    budgetMock.services,
+    [],
+    budgetMock.id,
+  )
+
+  expect(budget.getPieces()).toEqual([])
+
+  const newPrice = faker.number.int({ min: 1, max: 10 })
+  expect(() => {
+    budget.changePiecePrice(0, newPrice)
+  }).toThrowError('Peça não encontrada')
+})
+
 // alterar quantidade da peça
 test('testar alterar quantidade de peça em um orçamento', () => {
   const budget = new Budget(
@@ -568,6 +652,28 @@ test('testar alterar quantidade de peça em um orçamento', () => {
   const newQuantity = faker.number.int({ min: 1, max: 10 })
   budget.changePieceQuantity(Number(firstPiece.getId()), newQuantity)
   expect(firstPiece.getQuantity()).toBe(newQuantity)
+})
+
+// deve dar erro ao tentar alterar quantidade da peça em orçamento não pendente
+
+// deve dar erro ao tentar alterar quantidade de peça não presente no orçamento
+test('testar alterar quantidade de peça não presente em um orçamento', () => {
+  const budget = new Budget(
+    newClient,
+    newVehicle,
+    budgetMock.created_at,
+    budgetMock.updated_at, 
+    budgetMock.services,
+    [],
+    budgetMock.id,
+  )
+
+  expect(budget.getPieces()).toEqual([])
+
+  const newQuantity = faker.number.int({ min: 1, max: 10 })
+  expect(() => {
+    budget.changePieceQuantity(0, newQuantity)
+  }).toThrowError('Peça não encontrada')
 })
 
 // aprovar orçamento
