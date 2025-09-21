@@ -5,8 +5,8 @@ import {
   serial,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { clients } from "./clients";
-import { vehicles } from "./vehicle";
+import { clients } from "../public/clients.ts";
+import { vehicles } from "../public/vehicles.ts";
 import { budgetSchema } from "./budgetSchema.ts";
 
 export const statusEnum = pgEnum("status", [

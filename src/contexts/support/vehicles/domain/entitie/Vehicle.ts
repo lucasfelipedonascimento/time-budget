@@ -1,4 +1,4 @@
-import { Plate } from "../../../../value-objects/Plate";
+import { Plate } from "../../../../../value-objects/Plate";
 
 export class Vehicle {
   private id?: number;
@@ -7,15 +7,15 @@ export class Vehicle {
   private model: string;
   private year: number;
 
-  constructor (
+  constructor(
     plate: string,
     brand: string,
     model: string,
     year: number,
-    id?: number,
+    id?: number
   ) {
     if (!brand || !model || !year) {
-      throw new Error('Os campos: placa, marca, modelo e ano são obrigatórios');
+      throw new Error("Os campos: placa, marca, modelo e ano são obrigatórios");
     }
 
     this.id = id;
@@ -47,21 +47,21 @@ export class Vehicle {
 
   public changeBrand(newBrand: string): void {
     if (!newBrand) {
-      throw new Error('Brand is required');
+      throw new Error("Brand is required");
     }
     this.brand = newBrand;
   }
 
   public changeModel(newModel: string): void {
     if (!newModel) {
-      throw new Error('Model is required');
+      throw new Error("Model is required");
     }
     this.model = newModel;
   }
 
   public changeYear(newYear: number): void {
     if (!newYear) {
-      throw new Error('Year is required');
+      throw new Error("Year is required");
     }
     this.year = newYear;
   }

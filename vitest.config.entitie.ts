@@ -6,8 +6,8 @@ export default defineConfig({
     globals: true,
     environment: "node",
     include: [
-      "test/contexts/**/domain/entities/*.test.ts",
       "test/contexts/**/domain/aggregates/*.test.ts",
+      "test/contexts/**/**/domain/entitie/*.test.ts",
     ],
     exclude: [
       "src/contexts/**/domain/dto",

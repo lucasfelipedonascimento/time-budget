@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 
-import { piece } from './piece-mock'
-import { Piece } from "../../src/contexts/basic/domain/entities/Piece";
+import { piece } from "./piece-mock";
+import { Piece } from "../../src/contexts/support/pieces/domain/entitie/Piece";
 
 export const service = {
   id: faker.number.int({ min: 1, max: 1000 }),
@@ -9,10 +9,5 @@ export const service = {
   time: faker.number.int(),
   unit_price: faker.number.float({ min: 1 }),
   quantity: faker.number.int({ min: 1, max: 10 }),
-  pieces: [new Piece(
-    piece.name,
-    piece.unit_price,
-    piece.quantity,
-    piece.id,
-  )]
-} 
+  pieces: [new Piece(piece.name, piece.unit_price, piece.quantity, piece.id)],
+};

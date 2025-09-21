@@ -1,19 +1,19 @@
-import { Client } from '../entities/Client'
-import { Vehicle } from '../entities/Vehicle'
-import { Service } from '../entities/Service'
-import { Piece } from '../entities/Piece'
-import { STATUS } from '../../../../constants/Status'
+import { Client } from "../../../support/clients/domain/entitie/Client";
+import { Vehicle } from "../../../support/vehicles/domain/entitie/Vehicle";
+import { Service } from "../../../support/services/domain/entitie/Service";
+import { Piece } from "../../../support/pieces/domain/entitie/Piece";
+import { STATUS } from "../../../../constants/Status";
 
 export class Budget {
-  private id?: number
-  private status: STATUS = STATUS.PENDING // Default to 'pending'
-  private client: Client
-  private vehicle: Vehicle
-  private totalAmount: number = 0 // Default to 0, will be calculated later
-  private services: Service[] = []
-  private pieces: Piece[] = []
-  private createdAt: string
-  private updatedAt: string
+  private id?: number;
+  private status: STATUS = STATUS.PENDING; // Default to 'pending'
+  private client: Client;
+  private vehicle: Vehicle;
+  private totalAmount: number = 0; // Default to 0, will be calculated later
+  private services: Service[] = [];
+  private pieces: Piece[] = [];
+  private createdAt: string;
+  private updatedAt: string;
 
   constructor(
     client: Client,
@@ -22,61 +22,63 @@ export class Budget {
     updatedAt: string,
     services?: Service[],
     pieces?: Piece[],
-    id?: number,
+    id?: number
   ) {
-    this.validateClient(client)
-    this.validateVehicle(vehicle)
-    this.services = services ?? []
-    this.pieces = pieces ?? []
-    this.createdAt = createdAt
-    this.updatedAt = updatedAt
-    this.id = id
-    this.calculateTotalAmount() // Calculate total amount based on services and pieces
+    this.validateClient(client);
+    this.validateVehicle(vehicle);
+    this.services = services ?? [];
+    this.pieces = pieces ?? [];
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.id = id;
+    this.calculateTotalAmount(); // Calculate total amount based on services and pieces
   }
 
   getId(): number | undefined {
-    return this.id
+    return this.id;
   }
   getStatus(): string {
-    return this.status
+    return this.status;
   }
   getClient(): Client {
-    return this.client
+    return this.client;
   }
   getVehicle(): Vehicle {
-    return this.vehicle
+    return this.vehicle;
   }
   getServices(): Service[] | undefined {
-    return this.services
+    return this.services;
   }
   getServiceById(serviceId: number): Service | undefined {
-    return this.services.find(s => s.getId() === serviceId)
+    return this.services.find((s) => s.getId() === serviceId);
   }
   getPieces(): Piece[] | undefined {
-    return this.pieces
+    return this.pieces;
   }
   getPieceById(pieceId: number): Piece | undefined {
-    return this.pieces.find(p => p.getId() === pieceId)
+    return this.pieces.find((p) => p.getId() === pieceId);
   }
   getTotalAmount(): number {
-    return this.totalAmount
+    return this.totalAmount;
   }
   getCreatedAt(): string {
-    return this.createdAt
+    return this.createdAt;
   }
   getUpdatedAt(): string {
-    return this.updatedAt
+    return this.updatedAt;
   }
 
   // serviços
   public addService(service: Service): void {
     this.ensureBudgetIsPending();
 
-    const serviceInBudget = this.services.some(s => s.getId() === service.getId());
+    const serviceInBudget = this.services.some(
+      (s) => s.getId() === service.getId()
+    );
     if (serviceInBudget) {
-      throw new Error('Serviço já está associado a este orçamento');
+      throw new Error("Serviço já está associado a este orçamento");
     }
-    
+
     this.services.push(service);
     this.calculateTotalAmount();
   }
@@ -84,21 +86,25 @@ export class Budget {
   public removeService(serviceId: number): void {
     this.ensureBudgetIsPending();
 
-    const serviceInBudget = this.services.find(s => s.getId() === serviceId);
+    const serviceInBudget = this.services.find((s) => s.getId() === serviceId);
     if (!serviceInBudget) {
-      throw new Error('Serviço não encontrado no orçamento');
+      throw new Error("Serviço não encontrado no orçamento");
     }
 
-    this.services = this.services.filter(service => service.getId() !== serviceId);
+    this.services = this.services.filter(
+      (service) => service.getId() !== serviceId
+    );
     this.calculateTotalAmount();
   }
   // - alterar preço do serviço
   public changeServicePrice(serviceId: number, newPrice: number): void {
     this.ensureBudgetIsPending();
 
-    const service = this.services.find(service => service.getId() === serviceId);
+    const service = this.services.find(
+      (service) => service.getId() === serviceId
+    );
     if (!service) {
-      throw new Error('Serviço não encontrado');
+      throw new Error("Serviço não encontrado");
     }
     // alterar o preço do serviço
     service.changeUnitPrice(newPrice);
@@ -111,9 +117,11 @@ export class Budget {
   public changeServiceQuantity(serviceId: number, newQuantity: number): void {
     this.ensureBudgetIsPending();
 
-    const service = this.services.find(service => service.getId() === serviceId);
+    const service = this.services.find(
+      (service) => service.getId() === serviceId
+    );
     if (!service) {
-      throw new Error('Serviço não encontrado');
+      throw new Error("Serviço não encontrado");
     }
     // alterar a quantidade do serviço
     service.changeQuantity(newQuantity);
@@ -128,9 +136,11 @@ export class Budget {
     this.ensureBudgetIsPending();
 
     // pegar o serviço, onde vai ser adicionada a peça, pelo id
-    const service = this.services.find(service => service.getId() === serviceId);
+    const service = this.services.find(
+      (service) => service.getId() === serviceId
+    );
     if (!service) {
-      throw new Error('Serviço não encontrado');
+      throw new Error("Serviço não encontrado");
     }
     // adicionar a peça ao serviço
     service.addPiece(piece);
@@ -142,33 +152,43 @@ export class Budget {
   public removePieceToService(serviceId: number, pieceId: number): void {
     this.ensureBudgetIsPending();
 
-    const service = this.services.find(service => service.getId() === serviceId);
+    const service = this.services.find(
+      (service) => service.getId() === serviceId
+    );
     if (!service) {
-      throw new Error('Serviço não encontrado');
+      throw new Error("Serviço não encontrado");
     }
 
-    const piece = service.getPieces()?.find(p => p.getId() === pieceId)
+    const piece = service.getPieces()?.find((p) => p.getId() === pieceId);
     if (!piece) {
-      throw new Error('Peça não encontrada no serviço');
+      throw new Error("Peça não encontrada no serviço");
     }
     service.removePiece(pieceId);
     this.calculateTotalAmount();
   }
 
   // - alterar quantidade da peça do serviço
-  public changePieceQuantityInService(serviceId: number, pieceId: number, newQuantity: number): void {
+  public changePieceQuantityInService(
+    serviceId: number,
+    pieceId: number,
+    newQuantity: number
+  ): void {
     this.ensureBudgetIsPending();
 
-    const service = this.services.find(service => service.getId() === serviceId);
+    const service = this.services.find(
+      (service) => service.getId() === serviceId
+    );
     if (!service) {
-      throw new Error('Serviço não encontrado');
+      throw new Error("Serviço não encontrado");
     }
-    
-    const piece = service.getPieces()?.find(piece => piece.getId() === pieceId);
+
+    const piece = service
+      .getPieces()
+      ?.find((piece) => piece.getId() === pieceId);
     if (!piece) {
-      throw new Error('Peça não encontrada no serviço');
+      throw new Error("Peça não encontrada no serviço");
     }
-    
+
     // alterar a quantidade da peça do serviço
     piece.changeQuantity(newQuantity);
 
@@ -176,19 +196,27 @@ export class Budget {
     this.calculateTotalAmount();
   }
   // - alterar preço da peça do serviço
-  public changePiecePriceInService(serviceId: number, pieceId: number, newPrice: number): void {
+  public changePiecePriceInService(
+    serviceId: number,
+    pieceId: number,
+    newPrice: number
+  ): void {
     this.ensureBudgetIsPending();
 
-    const service = this.services.find(service => service.getId() === serviceId);
+    const service = this.services.find(
+      (service) => service.getId() === serviceId
+    );
     if (!service) {
-      throw new Error('Serviço não encontrado');
+      throw new Error("Serviço não encontrado");
     }
-    
-    const piece = service.getPieces()?.find(piece => piece.getId() === pieceId);
+
+    const piece = service
+      .getPieces()
+      ?.find((piece) => piece.getId() === pieceId);
     if (!piece) {
-      throw new Error('Peça não encontrada no serviço');
+      throw new Error("Peça não encontrada no serviço");
     }
-    
+
     // alterar o preço da peça do serviço
     piece.changeUnitPrice(newPrice);
 
@@ -200,9 +228,9 @@ export class Budget {
   public addPiece(piece: Piece): void {
     this.ensureBudgetIsPending();
 
-    const pieceInBudget = this.pieces.some(p => p.getId() === piece.getId());
+    const pieceInBudget = this.pieces.some((p) => p.getId() === piece.getId());
     if (pieceInBudget) {
-      throw new Error('Peça já está associada a este orçamento');
+      throw new Error("Peça já está associada a este orçamento");
     }
     this.pieces.push(piece);
     this.calculateTotalAmount();
@@ -211,11 +239,13 @@ export class Budget {
   public removePiece(pieceId: number): void {
     this.ensureBudgetIsPending();
 
-    const pieceInBudget = this.pieces.some(piece => piece.getId() === pieceId);
+    const pieceInBudget = this.pieces.some(
+      (piece) => piece.getId() === pieceId
+    );
     if (!pieceInBudget) {
-      throw new Error('Peça não encontrada no orçamento');
+      throw new Error("Peça não encontrada no orçamento");
     }
-    this.pieces = this.pieces.filter(piece => piece.getId() !== pieceId);
+    this.pieces = this.pieces.filter((piece) => piece.getId() !== pieceId);
     this.calculateTotalAmount();
   }
 
@@ -223,9 +253,9 @@ export class Budget {
   public changePiecePrice(pieceId: number, newPrice: number): void {
     this.ensureBudgetIsPending();
 
-    const piece = this.pieces.find(piece => piece.getId() === pieceId);
+    const piece = this.pieces.find((piece) => piece.getId() === pieceId);
     if (!piece) {
-      throw new Error('Peça não encontrada');
+      throw new Error("Peça não encontrada");
     }
     // alterar o preço da peça
     piece.changeUnitPrice(newPrice);
@@ -237,9 +267,9 @@ export class Budget {
   public changePieceQuantity(pieceId: number, newQuantity: number): void {
     this.ensureBudgetIsPending();
 
-    const piece = this.pieces.find(piece => piece.getId() === pieceId);
+    const piece = this.pieces.find((piece) => piece.getId() === pieceId);
     if (!piece) {
-      throw new Error('Peça não encontrada');
+      throw new Error("Peça não encontrada");
     }
     // alterar a quantidade da peça
     piece.changeQuantity(newQuantity);
@@ -263,7 +293,7 @@ export class Budget {
   public approve(): void {
     this.ensureBudgetIsPending();
     if (this.status === STATUS.APPROVE) {
-      throw new Error('Orçamento já aprovado');
+      throw new Error("Orçamento já aprovado");
     }
     this.status = STATUS.APPROVE;
   }
@@ -271,40 +301,46 @@ export class Budget {
   public reject(): void {
     this.ensureBudgetIsPending();
     if (this.status === STATUS.REJECT) {
-      throw new Error('Orçamento já rejeitado');
+      throw new Error("Orçamento já rejeitado");
     }
     this.status = STATUS.REJECT;
   }
 
   private validateClient(client: Client): void {
     if (!client.getId) {
-      throw new Error('O cliente é obrigatório para gerar um orçamento');
+      throw new Error("O cliente é obrigatório para gerar um orçamento");
     }
     this.client = client;
   }
 
   private validateVehicle(vehicle: Vehicle): void {
     if (!vehicle.getId) {
-      throw new Error('O veículo é obrigatório para gerar um orçamento');
+      throw new Error("O veículo é obrigatório para gerar um orçamento");
     }
     this.vehicle = vehicle;
   }
 
   private ensureBudgetIsPending(): void {
     if (this.status !== STATUS.PENDING) {
-      throw new Error('Somente orçamentos pendentes podem ser alterados');
+      throw new Error("Somente orçamentos pendentes podem ser alterados");
     }
   }
 
   private calculateTotalAmount(): void {
     let total = 0;
     if (this.services) {
-      total += this.services.reduce((sum, service) => sum + service.getUnitPrice() * service.getQuantity(), 0);
+      total += this.services.reduce(
+        (sum, service) => sum + service.getUnitPrice() * service.getQuantity(),
+        0
+      );
     }
     if (this.pieces) {
-      total += this.pieces.reduce((sum, piece) => sum + piece.getUnitPrice() * piece.getQuantity(), 0);
+      total += this.pieces.reduce(
+        (sum, piece) => sum + piece.getUnitPrice() * piece.getQuantity(),
+        0
+      );
     }
-    
+
     this.totalAmount = total;
   }
 }

@@ -1,12 +1,12 @@
-import { Piece } from './Piece'
+import { Piece } from "../../../pieces/domain/entitie/Piece";
 
 export class Service {
-  private id?: number
-  private name: string
-  private time: number
-  private unit_price: number = 0 // Default value, can be set later
-  private quantity: number
-  private pieces?: Piece[]
+  private id?: number;
+  private name: string;
+  private time: number;
+  private unit_price: number = 0; // Default value, can be set later
+  private quantity: number;
+  private pieces?: Piece[];
 
   constructor(
     name: string,
@@ -14,15 +14,17 @@ export class Service {
     unit_price: number,
     quantity: number,
     pieces?: Piece[],
-    id?: number,
+    id?: number
   ) {
     if (!name) {
-      throw new Error('Os campos: nome, tempo, quantidade e preço unitário são obrigatórios');
+      throw new Error(
+        "Os campos: nome, tempo, quantidade e preço unitário são obrigatórios"
+      );
     }
 
     this.id = id;
     this.name = name;
-    this.validateTime(time)
+    this.validateTime(time);
     this.validateUnitPrice(unit_price);
     this.validateQuantity(quantity);
     this.pieces = pieces || undefined;
@@ -47,37 +49,41 @@ export class Service {
     return this.pieces;
   }
   public getPieceById(pieceId: number): Piece | undefined {
-    return this.pieces?.find(p => p.getId() === pieceId)
+    return this.pieces?.find((p) => p.getId() === pieceId);
   }
 
   // peças
   public addPiece(piece: Piece): void {
     // Verifica se a peça já está no serviço
-    const validatePieceInService = this.pieces?.some(p => p.getId() === piece.getId());
+    const validatePieceInService = this.pieces?.some(
+      (p) => p.getId() === piece.getId()
+    );
     if (validatePieceInService) {
-      throw new Error('A Peça já está associada a este serviço');
+      throw new Error("A Peça já está associada a este serviço");
     }
 
     this.pieces?.push(piece);
   }
 
   public removePiece(pieceId: number): void {
-    const validatePieceInService = this.pieces?.some(p => p.getId() === pieceId);
+    const validatePieceInService = this.pieces?.some(
+      (p) => p.getId() === pieceId
+    );
     if (!validatePieceInService) {
-      throw new Error('Peça não encontrada no serviço');
+      throw new Error("Peça não encontrada no serviço");
     }
 
-    this.pieces = this.pieces?.filter(piece => piece.getId() !== pieceId);
+    this.pieces = this.pieces?.filter((piece) => piece.getId() !== pieceId);
   }
- 
+
   // tempo
   public changeTime(time: number): void {
-    this.validateTime(time)
+    this.validateTime(time);
   }
 
   private validateTime(time: number): void {
     if (!time || time <= 0) {
-      throw new Error('Tempo não pode ser igual ou menor que 0');
+      throw new Error("Tempo não pode ser igual ou menor que 0");
     }
 
     this.time = time;
@@ -90,7 +96,7 @@ export class Service {
 
   private validateQuantity(quantity: number): void {
     if (!quantity || quantity <= 0) {
-      throw new Error('Quantidade não pode ser igual ou menor que 0');
+      throw new Error("Quantidade não pode ser igual ou menor que 0");
     }
 
     this.quantity = quantity;
@@ -103,7 +109,7 @@ export class Service {
 
   private validateUnitPrice(unit_price: number): void {
     if (!unit_price || unit_price < 0) {
-      throw new Error('O preço não pode ser menor que 0');
+      throw new Error("O preço não pode ser menor que 0");
     }
 
     this.unit_price = unit_price;

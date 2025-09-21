@@ -1,7 +1,7 @@
-import { CPF } from '../../../../value-objects/CPF'
-import { Email } from '../../../../value-objects/Email'
-import { CEP } from '../../../../value-objects/CEP'
-import { Erros } from '../../../../constants/Erros';
+import { CPF } from "../../../../../value-objects/CPF";
+import { Email } from "../../../../../value-objects/Email";
+import { CEP } from "../../../../../value-objects/CEP";
+import { Erros } from "../../../../../constants/Erros";
 
 export class Client {
   private id?: number;
@@ -19,7 +19,7 @@ export class Client {
     address: string,
     address_number: string,
     cep: string,
-    id?: number,
+    id?: number
   ) {
     if (!name || !address || !address_number) {
       throw new Error(Erros.allRequiredFields);
@@ -83,7 +83,7 @@ export class Client {
     this.requiredField(address_number);
     this.address_number = address_number;
   }
-  
+
   private requiredField(value: string | number) {
     if (!value) {
       throw new Error(Erros.requiredField);

@@ -1,13 +1,13 @@
 import { expect, test } from "vitest";
-import { Vehicle } from "../../../../../src/contexts/basic/domain/entities/Vehicle";
+import { Vehicle } from "../../../../../src/contexts/support/vehicles/domain/entitie/Vehicle";
 import { vehicle as vehicleMock } from "../../../../mock/vehicle-mock";
 import { client as clientMock } from "../../../../mock/client-mock";
 import { budget as budgetMock } from "../../../../mock/budget-mock";
 import { faker } from "@faker-js/faker";
 import { Budget } from "../../../../../src/contexts/basic/domain/aggregates/Budget";
-import { Client } from "../../../../../src/contexts/basic/domain/entities/Client";
-import { Service } from "../../../../../src/contexts/basic/domain/entities/Service";
-import { Piece } from "../../../../../src/contexts/basic/domain/entities/Piece";
+import { Client } from "../../../../../src/contexts/support/clients/domain/entitie/Client";
+import { Service } from "../../../../../src/contexts/support/services/domain/entitie/Service";
+import { Piece } from "../../../../../src/contexts/support/pieces/domain/entitie/Piece";
 import { STATUS } from "../../../../../src/constants/Status";
 import { piece as pieceMock } from "../../../../mock/piece-mock";
 
