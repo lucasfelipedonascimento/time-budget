@@ -1,9 +1,6 @@
-CREATE TYPE "public"."status" AS ENUM
-('pending', 'approved', 'rejected', 'in_progress');--> statement-breakpoint
-CREATE TYPE "public"."item_type" AS ENUM
-('service', 'piece');--> statement-breakpoint
-CREATE TABLE "budget"."clients"
-(
+CREATE TYPE "budget"."status" AS ENUM('pending', 'approve', 'reject', 'in_progress');
+CREATE TYPE "budget"."item_type" AS ENUM('service', 'piece');--> statement-breakpoint
+CREATE TABLE "budget"."clients" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" varchar(50) NOT NULL,
 	"cpf" varchar NOT NULL,
@@ -15,19 +12,17 @@ CREATE TABLE "budget"."clients"
 	CONSTRAINT "clients_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-CREATE TABLE "budget"."budgets"
-(
+CREATE TABLE "budget"."budgets" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"client_id" integer NOT NULL,
 	"vehicle_id" integer NOT NULL,
-	"status" "status" NOT NULL,
+	"status" "status" DEFAULT 'pending' NOT NULL,
 	"total_value" numeric(10, 2) NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
-CREATE TABLE "budget"."vehicles"
-(
+CREATE TABLE "budget"."vehicles" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"plate" varchar(10) NOT NULL,
 	"brand" varchar(50) NOT NULL,
@@ -35,14 +30,15 @@ CREATE TABLE "budget"."vehicles"
 	"year" varchar(4) NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "budget"."budget_items"
-(
+CREATE TABLE "budget"."budget_items" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"budget_id" integer,
+	"budget_id" integer NOT NULL,
 	"name" varchar(256) NOT NULL,
 	"item_type" "item_type" NOT NULL,
+	"time" integer,
 	"quantity" integer NOT NULL,
-	"price" integer NOT NULL
+	"price" integer DEFAULT 0 NOT NULL,
+	"subtotal" integer DEFAULT 0 NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "budget"."budgets" ADD CONSTRAINT "budgets_client_id_clients_id_fk" FOREIGN KEY ("client_id") REFERENCES "budget"."clients"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

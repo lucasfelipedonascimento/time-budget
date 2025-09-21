@@ -1,9 +1,7 @@
-
-
 export class Money {
   private money: number;
 
-  constructor(money: number){
+  constructor(money: number) {
     this.validateMoney(money);
   }
 
@@ -12,10 +10,10 @@ export class Money {
       throw new Error("O valor do preço não pode ser negativo");
     }
 
-    if (typeof money !== 'number') {
+    if (typeof money !== "number") {
       throw new Error("O preço deve ser um número válido");
     }
-    
+
     this.money = money;
   }
 

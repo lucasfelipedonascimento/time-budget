@@ -1,5 +1,5 @@
 {
-  "id": "c7a72964-3685-4bbe-a202-582be80227ea",
+  "id": "79a563d0-a16f-4862-9d29-f52410e7a0e7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -101,7 +101,8 @@
           "type": "status",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'pending'"
         },
         "total_value": {
           "name": "total_value",
@@ -218,7 +219,7 @@
           "name": "budget_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -233,6 +234,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "time": {
+          "name": "time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
         "quantity": {
           "name": "quantity",
           "type": "integer",
@@ -243,7 +250,15 @@
           "name": "price",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": 0
+        },
+        "subtotal": {
+          "name": "subtotal",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
         }
       },
       "indexes": {},
@@ -276,8 +291,8 @@
       "schema": "public",
       "values": [
         "pending",
-        "approved",
-        "rejected",
+        "approve",
+        "reject",
         "in_progress"
       ]
     },
