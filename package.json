@@ -5,15 +5,13 @@
   "type": "module",
   "scripts": {
     "start": "node --env-file .env --experimental-strip-types --no-warnings src/server.ts",
-    "dev": "node --env-file .env --experimental-strip-types --no-warnings --watch src/server.ts",
+    "dev": "node --env-file .env --experimental-strip-types --no-warnings --watch src/app.ts",
     "db:seed": "node --env-file .env --experimental-strip-types --no-warnings --watch src/db/seed.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "test": "vitest run",
-    "test:watch": "vitest watch",
-    "test:coverage": "vitest run --coverage",
-    "test:unit": "vitest run --setup ./vitest.setup.unit.ts --testNamePattern unit",
-    "test:integration": "vitest run  --setup ./vitest.setup.integration.ts --testNamePattern integration"
+    "test:entitie": "vitest run --config vitest.config.entitie.ts",
+    "test:coverage": "vitest run --coverage --config vitest.config.entitie.ts"
   },
   "engines": {
     "node": "22"

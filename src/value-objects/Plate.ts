@@ -1,28 +1,35 @@
+import { Erros } from "../constants/Erros";
+
 export class Plate {
   private plate: string;
 
   constructor(value: string) {
-    if (!value) {
-      throw new Error('Plate cannot be null or undefined');
-    }
-
-    this.validatePlate(value);
-    this.plate = value;
+    this.requiredPlate(value);
   }
 
   private validatePlate(value: string): void {
-    const plateRegex = /^[A-Z]{3}-\d{4}$/; // Example regex for Brazilian plates
+    // Example regex for Brazilian license plates
+    const plateRegex = /^[A-Z]{3}-?\d[A-Z0-9]\d{2}$|^[A-Z]{3}-?\d{4}$/; 
     if (!plateRegex.test(value)) {
-      throw new Error(`Invalid plate format: ${value}`);
+      throw new Error(Erros.invalidPlate);
     }
+
+    this.plate = value; // Normalize plate format
   }
 
   get getPlate(): string {
     return this.plate;
   }
+  
+  changePlate(newPlate: string): void {
+    this.requiredPlate(newPlate);
+  }
 
-  set setPlate(value: string) {
-    this.validatePlate(value);
-    this.plate = value;
+  private requiredPlate(plate: string): void {
+    if (!plate) {
+      throw new Error('A placa é obrigatória');
+    }
+
+    this.validatePlate(plate);
   }
 }

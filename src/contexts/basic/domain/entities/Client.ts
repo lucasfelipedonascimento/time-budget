@@ -86,7 +86,7 @@ export class Client {
   
   private requiredField(value: string | number) {
     if (!value) {
-      throw new Error('Field cannot be null or undefined');
+      throw new Error(Erros.requiredField);
     }
   }
 }

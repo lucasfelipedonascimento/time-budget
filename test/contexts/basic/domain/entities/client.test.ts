@@ -4,11 +4,7 @@ import { faker } from '@faker-js/faker'
 import { client as clientMock } from '../../../../mock/client-mock'
 import { Erros } from '../../../../../src/constants/Erros';
 
-const CPF = '12345678909';
-const CEP = '12345678';
-const EMAIL = 'fulano@gmail.com'
-
-test('testar entidade cliente com todos os campos certos', () => {
+test('testar entidade cliente com todos os campos', () => {
   const client = new Client(
     clientMock.cpf,
     clientMock.name,
@@ -102,7 +98,51 @@ test('deve lançar erro ao tentar criar cliente com cep inválido', () => {
   }).toThrowError(Erros.invalidCep)
 })
 
+test('deve lançar erro ao tentar criar cliente sem passar endereço', () => {
+  expect(() => {
+    new Client(
+      clientMock.cpf,
+      clientMock.name,
+      clientMock.email,
+      '',
+      clientMock.address_number,
+      clientMock.cep,
+      clientMock.id
+    )
+  }).toThrowError(Erros.allRequiredFields)
+})
+
+test('deve lançar erro ao tentar criar cliente sem passar o número da casa', () => {
+  expect(() => {
+    new Client(
+      clientMock.cpf,
+      clientMock.name,
+      clientMock.email,
+      clientMock.address,
+      '',
+      clientMock.cep,
+      clientMock.id
+    )
+  }).toThrowError(Erros.allRequiredFields)
+})
+
 // testar os métodos de alteração
+
+test('deve lançar erro ao tentar alterar dado do cliente para vazio', () => {
+  const client = new Client(
+    clientMock.cpf,
+    clientMock.name,
+    clientMock.email,
+    clientMock.address,
+    clientMock.address_number,
+    clientMock.cep,
+    clientMock.id
+  )
+
+  expect(() => {
+    client.changeName('');
+  }).toThrowError(Erros.requiredField);
+})
 
 test('deve alterar o nome do cliente', () => {
   const client = new Client(
@@ -121,8 +161,7 @@ test('deve alterar o nome do cliente', () => {
   expect(client.getName).toBe(newName);
 })
 
-// consertar
-test.skip('deve alterar o email do cliente', () => {
+test('deve alterar o email do cliente', () => {
   const client = new Client(
     clientMock.cpf,
     clientMock.name,
@@ -134,7 +173,7 @@ test.skip('deve alterar o email do cliente', () => {
   )
 
   const newEmail = faker.internet.email();
-  client.changeName(newEmail);
+  client.changeEmail(newEmail);
 
   expect(client.getEmail).toBe(newEmail);
 })
@@ -188,4 +227,21 @@ test('deve alterar o número da casa', () => {
   client.changeAddressNumber(newAddressNumber);
 
   expect(client.getAddressNumber).toBe(newAddressNumber);
+})
+
+test('deve alterar o cep', () => {
+  const client = new Client(
+    clientMock.cpf,
+    clientMock.name,
+    clientMock.email,
+    clientMock.address,
+    clientMock.address_number,
+    clientMock.cep,
+    clientMock.id
+  )
+
+  const newCEP = faker.string.numeric(8);
+  client.changeCEP(newCEP);
+
+  expect(client.getCep).toBe(newCEP);
 })
