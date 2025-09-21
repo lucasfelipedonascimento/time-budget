@@ -10,11 +10,12 @@ export default defineConfig({
     coverage: {
       enabled: true,
       exclude: [
-        'vitest.**.ts',
-        'vitest.setup.**.ts',
-        'src/constants/**',
-        'src/contexts/**/**/dto'
-      ]
+        "vitest.**.ts",
+        "vitest.setup.**.ts",
+        "src/constants/**",
+        "src/contexts/**/domain/dto",
+      ],
+      include: ["src/contexts/**/domain/**/*.ts"],
     },
     environment: "node",
     include: ["test/**/*.test.ts"],

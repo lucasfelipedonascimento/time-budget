@@ -1,11 +1,11 @@
-import { STATUS } from '../../../../constants/Status'
+import { STATUS } from "../constants/Status";
 
 export class Status {
   private status: string;
 
   constructor(value: STATUS) {
     if (!value) {
-      throw new Error('Status cannot be null or undefined');
+      throw new Error("Status cannot be null or undefined");
     }
 
     this.validateStatus(value);

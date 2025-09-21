@@ -1,13 +1,13 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.test" });
 
-const PORT = process.env.PORT || ''
-const DATABASE_NAME = process.env.DATABASE_NAME || ''
+const PORT = process.env.PORT || "";
+const DATABASE_NAME = process.env.DATABASE_NAME || "";
 
-const DATABASE_URL = process.env.DATABASE_URL || ''
-const SCHEMA_UNIT = process.env.SCHEMA_UNIT || ''
+const DATABASE_URL = process.env.DATABASE_URL || "";
+const SCHEMA_UNIT = process.env.SCHEMA_UNIT || "";
 
-const SCHEMA_INTEGRATION = process.env.SCHEMA_INTEGRATION || ''
+const SCHEMA_INTEGRATION = process.env.SCHEMA_INTEGRATION || "";
 
 export const envTest = {
   PORT,
@@ -15,4 +15,4 @@ export const envTest = {
   DATABASE_URL,
   SCHEMA_UNIT,
   SCHEMA_INTEGRATION,
-}
+};
