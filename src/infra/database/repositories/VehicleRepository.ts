@@ -1,7 +1,7 @@
 import { IVehicleRepository } from "../../../contexts/support/vehicles/domain/interface/IVehicleRepository";
 import { VehicleDTO } from "../../../dto/Vehicle";
 import { database as db } from "../../database/connection";
-import { vehicles } from "../schema/budgets/vehicle";
+import { vehicles } from "../schema/public/vehicles";
 import { eq } from "drizzle-orm";
 
 export class VehicleRepository implements IVehicleRepository {

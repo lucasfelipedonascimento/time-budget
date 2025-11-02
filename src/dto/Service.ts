@@ -1,10 +1,8 @@
-import { PieceDTO } from "./Piece";
-
 export type ServiceDTO = {
-  id: number;
+  id?: number;
   name: string;
-  time: number;
+  time: string;
   unit_price: number;
-  quantity: number;
-  pieces: PieceDTO[];
+  created_at?: string | null;
+  updated_at?: string | null;
 };

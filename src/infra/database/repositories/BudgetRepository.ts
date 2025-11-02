@@ -1,5 +1,5 @@
 import { IBudgetRepository } from "../../../contexts/basic/domain/interface/IBudgetRepository";
-import { BudgetDTO } from "../../../dto/Budget";
+import { BudgetDTO } from "../../../dto/BudgetDTO";
 import { budgets } from "../../database/schema/budgets/budgets";
 import { database as db } from "../../database/connection";
 import { eq } from "drizzle-orm";
@@ -20,7 +20,19 @@ export class BudgetRepository implements IBudgetRepository {
 
     if (!result) return [];
 
-    return result as BudgetDTO[];
+    const parseToBudgetDTO: BudgetDTO[] = result.map((budget) => {
+      return {
+        id: budget.id,
+        client_id: budget.client_id,
+        vehicle_id: budget.vehicle_id,
+        total_value: budget.total_value,
+        status: budget.status,
+        created_at: String(budget.created_at),
+        updated_at: String(budget.updated_at),
+      };
+    });
+
+    return parseToBudgetDTO;
   }
 
   async findById(id: number): Promise<BudgetDTO | null> {
@@ -28,7 +40,17 @@ export class BudgetRepository implements IBudgetRepository {
 
     if (!row) return null;
 
-    return row as BudgetDTO;
+    const parseToBudgetDTO: BudgetDTO = {
+      id: row.id,
+      client_id: row.client_id,
+      vehicle_id: row.vehicle_id,
+      total_value: row.total_value,
+      status: row.status,
+      created_at: String(row.created_at),
+      updated_at: String(row.updated_at),
+    };
+
+    return parseToBudgetDTO;
   }
 
   async create(budget: BudgetDTO): Promise<void> {

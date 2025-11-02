@@ -1,6 +1,7 @@
 export type PieceDTO = {
-  id: number;
+  id?: number;
   name: string;
   unit_price: number;
-  quantity: number;
+  created_at?: string | null;
+  updated_at?: string | null;
 };

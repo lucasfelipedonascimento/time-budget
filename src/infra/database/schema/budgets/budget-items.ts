@@ -1,4 +1,10 @@
-import { integer, pgEnum, serial, varchar } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgEnum,
+  serial,
+  varchar,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { budgets } from "./budgets";
 import { budgetSchema } from "./budgetSchema.ts";
 import { pieces } from "../public/pieces.ts";
@@ -22,6 +28,8 @@ export const budgetItems = budgetSchema.table(
     quantity: integer("quantity").notNull(),
     unit_price: integer("price").default(0).notNull(),
     subtotal: integer("subtotal").default(0).notNull(),
+    created_at: timestamp("created_at").notNull().defaultNow(),
+    updated_at: timestamp("created_at").notNull().defaultNow(),
   },
   () => ({
     schema: "budget",

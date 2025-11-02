@@ -1,0 +1,1 @@
+ALTER TABLE "services" ADD COLUMN "time" numeric DEFAULT '0.00' NOT NULL;

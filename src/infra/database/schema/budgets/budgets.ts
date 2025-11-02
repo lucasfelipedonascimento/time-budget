@@ -28,8 +28,8 @@ export const budgets = budgetSchema.table(
       .notNull(),
     status: statusEnum("status").default("pending").notNull(),
     total_value: decimal("total_value", { precision: 10, scale: 2 }).notNull(),
-    created_at: timestamp("created_at").defaultNow(),
-    updated_at: timestamp("updated_at").defaultNow(),
+    created_at: timestamp("created_at").notNull().defaultNow(),
+    updated_at: timestamp("created_at").notNull().defaultNow(),
   },
   () => ({
     schema: "budget",

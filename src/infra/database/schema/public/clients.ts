@@ -1,4 +1,4 @@
-import { pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import { pgTable, serial, varchar, timestamp } from "drizzle-orm/pg-core";
 
 export const clients = pgTable("clients", {
   id: serial("id").primaryKey(), // OBS: Lembrar de fazer a relação com a tabela 'clients' do schema de suporte
@@ -8,4 +8,6 @@ export const clients = pgTable("clients", {
   address: varchar("address").notNull(),
   address_number: varchar("address_number").notNull(),
   cep: varchar("cep").notNull(),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("created_at").notNull().defaultNow(),
 });

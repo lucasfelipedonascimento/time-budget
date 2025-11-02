@@ -1,4 +1,4 @@
-import { pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import { pgTable, serial, varchar, timestamp } from "drizzle-orm/pg-core";
 
 export const vehicles = pgTable("vehicles", {
   id: serial("id").primaryKey(),
@@ -6,4 +6,6 @@ export const vehicles = pgTable("vehicles", {
   brand: varchar("brand", { length: 50 }).notNull(),
   model: varchar("model", { length: 256 }).notNull(),
   year: varchar("year", { length: 4 }).notNull(),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("created_at").notNull().defaultNow(),
 });
